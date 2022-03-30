@@ -160,10 +160,10 @@ d3.csv("data/nba_total.csv").then((data) => {
     .domain([0,maxY3])  // sets the range of the data from 0 to the max
     .range([height-margin.bottom,margin.top]);
 
-  let x3 = d3.scaleBand()  // scale for the different "categories"
-    .domain(d3.range(listCounts.length))  // sets the number of parts on the x axis to the number of data points
-    .range([margin.left, width - margin.right])
-    .padding(0.1); // sets a spacing between each item on the axis
+    let x3 = d3.scaleBand()  // scale for the different "categories"
+      .domain(d3.range(listCounts.length))  // sets the number of parts on the x axis to the number of data points
+      .range([margin.left, width - margin.right])
+      .padding(0.1); // sets a spacing between each item on the axis
 
     bar_svg.append("g")
     .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -178,33 +178,28 @@ d3.csv("data/nba_total.csv").then((data) => {
                   .attr("text-anchor", "end")
                   .text(xKey3));
 
-// add y axis to the svg
-bar_svg.append("g")
-    .attr("transform", `translate(${margin.left}, 0)`)
-    .call(d3.axisLeft(y3))
-    .attr("font-size", '20px')
-    .call((g) => g.append("text")
-                  .attr("x", 0)
-                  .attr("y", margin.top - 10)
-                  .attr("fill", "black")
-                  .attr("text-anchor", "end")
-                  .text(yKey3));
+    // add y axis to the svg
+    bar_svg.append("g")
+        .attr("transform", `translate(${margin.left}, 0)`)
+        .call(d3.axisLeft(y3))
+        .attr("font-size", '20px')
+        .call((g) => g.append("text")
+                      .attr("x", 0)
+                      .attr("y", margin.top - 10)
+                      .attr("fill", "black")
+                      .attr("text-anchor", "end")
+                      .text(yKey3));
 
-
-
-    bar_svg.selectAll(".bar")
-    .data(listCounts)
-    .enter()
-    .append("rect")
-    .attr("class", "bar")
-    .attr("x", (d, i) => x3(i))
-    .attr("y", (d) => y3(d.count))
-    .attr("height", (d) => (height - margin.bottom)-y3(d.count))
-    .attr("width", x3.bandwidth())
-    .style("fill", (d) => pos_color(d.POS))
-
-
-
+    mybars = bar_svg.selectAll(".bar")
+                      .data(listCounts)
+                      .enter()
+                      .append("rect")
+                      .attr("class", "bar")
+                      .attr("x", (d, i) => x3(i))
+                      .attr("y", (d) => y3(d.count))
+                      .attr("height", (d) => (height - margin.bottom)-y3(d.count))
+                      .attr("width", x3.bandwidth())
+                      .style("fill", (d) => pos_color(d.POS))
   }
 
 
@@ -213,7 +208,7 @@ let brush1;
 
 brush1 = d3.brush()                 // Add the brush feature using the d3.brush function
             .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-            .on("brush", updateChart2)     // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+            .on("brush", updateChart1)     // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
             .on("start", clear)
 
 
@@ -222,13 +217,13 @@ scatter_svg.call(brush1);
 
 // Call when Scatterplot2 is brushed
   function clear() {
-      svg1.call(brush1.move, null);
+      scatter_svg.call(brush1.move, null);
       
       //TODO: add code to clear existing brush from svg2
-      svg1.call(brush2.move, null);
+      //scatter_svg.call(brush2.move, null);
   }
 
-  function updateChart2(brushEvent) {
+  function updateChart1(brushEvent) {
 
     //Find coordinates of brushed region
     let extent = brushEvent.selection;
@@ -236,15 +231,18 @@ scatter_svg.call(brush1);
     let selectPosition = new Set();
     //Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
     myCircles1.classed("selected", function(d){
-      if (isBrushed(extent, x2(d.xKey1), y2(d.yKey1)))
+      if (isBrushed(extent, x1(d.PPG), y1(d.Salary)))
       {
-        selectPosition.add(d.xKey3)
+        selectPosition.add(d.POS)
       }
-       return isBrushed(extent, x2(d.xKey1), y2(d.yKey1))  } );
+       return isBrushed(extent, x1(d.PPG), y1(d.Salary))  } );
     // Give bold outline to all points in Scatterplot1 corresponding to points within the brush region in Scatterplot2
-    myCircles1.classed("selected", function(d){ return isBrushed(extent, x2(d.xKey1), y2(d.yKey1) ) } );
+    myCircles1.classed("selected", function(d){ return isBrushed(extent, x1(d.PPG), y1(d.Salary) ) } );
+    //myCircles1.classed("unselected", function(d){ return !(isBrushed(extent, x1(d.PPG), y1(d.Salary) )) } );
     // Give bold outline to all bars in bar chart with corresponding to species selected by Scatterplot2 brush
-    mybars.classed("selected", function(d){return selectPosition.has(d.xKey3)});
+    mybars.classed("selected", function(d){return selectPosition.has(d.POS)});
+    //mybars.classed("unselected", function(d){return !(selectPosition.has(d.POS))});
+    //console.log(selectPosition)
   }
 
   //Finds dots within the brushed region
