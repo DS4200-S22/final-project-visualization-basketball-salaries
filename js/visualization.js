@@ -1,13 +1,15 @@
-//This is filler -- delete it and start coding your visualization tool here
-// d3.select("#vis-container")
-//   .append("text")
-//   .attr("x", 20)
-//   .attr("y", 20)
-//   .text("Hello World!");
-
 const margin = { top: 50, right: 50, bottom: 50, left: 200 };
 const width = 900; //- margin.left - margin.right;
 const height = 650; //- margin.top - margin.bottom;
+
+const margin1 = { top: 50, right: 50, bottom: 50, left: 200 };
+const width1 = 600; //- margin.left - margin.right;
+const height1 = 450; //- margin.top - margin.bottom;
+
+const margin2 = { top: 50, right: 50, bottom: 50, left: 200 };
+const width2 = 600; //- margin.left - margin.right;
+const height2 = 450; //- margin.top - margin.bottom;
+
 
 const bar_svg = d3.select("#vis-container")
                 .append("svg")
@@ -31,12 +33,85 @@ const svg2 = d3.select("#vis-container")
                 .attr("viewBox", [0, 0, width, height]);
 
 
-// //append svg object to the body of the page to house Scatterplot2
-// const svg2 = d3.select("#vis-holder")
-//                 .append("svg")
-//                 .attr("width", width - margin.left - margin.right)
-//                 .attr("height", height - margin.top - margin.bottom)
-//                 .attr("viewBox", [0, 0, width, height]);
+const scatter1 = d3.select(".container").select("#item-1")
+                    .append("svg")
+                    .attr("width", width1 - margin1.left - margin1.right)
+                    .attr("height", height1 - margin1.top - margin1.bottom)
+                    .attr("viewBox", [0, 0, width1, height1]);
+
+const scatter2 = d3.select(".container").select("#item-2")
+                    .append("svg")
+                    .attr("width", width1 - margin1.left - margin1.right)
+                    .attr("height", height1 - margin1.top - margin1.bottom)
+                    .attr("viewBox", [0, 0, width1, height1]);
+1
+const scatter3 = d3.select(".container").select("#item-3")
+                    .append("svg")
+                    .attr("width", width1 - margin1.left - margin1.right)
+                    .attr("height", height1 - margin1.top - margin1.bottom)
+                    .attr("viewBox", [0, 0, width1, height1]);
+
+const scatter4 = d3.select(".container").select("#item-4")
+                    .append("svg")
+                    .attr("width", width1 - margin1.left - margin1.right)
+                    .attr("height", height1 - margin1.top - margin1.bottom)
+                    .attr("viewBox", [0, 0, width1, height1]);
+
+const scatter5 = d3.select(".container").select("#item-5")
+                    .append("svg")
+                    .attr("width", width1 - margin1.left - margin1.right)
+                    .attr("height", height1 - margin1.top - margin1.bottom)
+                    .attr("viewBox", [0, 0, width1, height1]);
+
+const scatter6 = d3.select(".container").select("#item-6")
+                    .append("svg")
+                    .attr("width", width1 - margin1.left - margin1.right)
+                    .attr("height", height1 - margin1.top - margin1.bottom)
+                    .attr("viewBox", [0, 0, width1, height1]);
+
+const scatter7 = d3.select(".container").select("#item-7")
+                    .append("svg")
+                    .attr("width", width1 - margin1.left - margin1.right)
+                    .attr("height", height1 - margin1.top - margin1.bottom)
+                    .attr("viewBox", [0, 0, width1, height1]);
+                    
+const scatter8 = d3.select(".container").select("#item-8")
+                    .append("svg")
+                    .attr("width", width - margin.left - margin.right)
+                    .attr("height", height - margin.top - margin.bottom)
+                    .attr("viewBox", [0, 0, width, height]);
+
+const scatter9 = d3.select(".container").select("#item-9")
+                    .append("svg")
+                    .attr("width", width - margin.left - margin.right)
+                    .attr("height", height - margin.top - margin.bottom)
+                    .attr("viewBox", [0, 0, width, height]);
+
+const bar1 = d3.select(".container1").select("#item-1-1")
+                    .append("svg")
+                    .attr("width", width2 - margin2.left - margin2.right)
+                    .attr("height", height2 - margin2.top - margin2.bottom)
+                    .attr("viewBox", [0, 0, width2, height2]);
+
+const bar2 = d3.select(".container1").select("#item-1-2")
+                    .append("svg")
+                    .attr("width", width2 - margin2.left - margin2.right)
+                    .attr("height", height2 - margin2.top - margin2.bottom)
+                    .attr("viewBox", [0, 0, width2, height2]);
+
+const bar3 = d3.select(".container1").select("#item-1-3")
+                    .append("svg")
+                    .attr("width", width2 - margin2.left - margin2.right)
+                    .attr("height", height2 - margin2.top - margin2.bottom)
+                    .attr("viewBox", [0, 0, width2, height2]);
+
+const bar4 = d3.select(".container1").select("#item-1-4")
+                    .append("svg")
+                    .attr("width", width2 - margin2.left - margin2.right)
+                    .attr("height", height2 - margin2.top - margin2.bottom)
+                    .attr("viewBox", [0, 0, width2, height2]);
+
+
 
 const pos_color = d3.scaleOrdinal()
                 .domain(["G", "F", "C"])
@@ -50,12 +125,88 @@ d3.csv("data/nba_total.csv").then((data) => {
   // We will need keys to be global
   let xKey1, yKey1, xKey2, yKey2, xKey3, yKey3;
 
+  {  // grid of scatter plots
+        
 
-  for (let i = 0; i < 10; i++) {
-    console.log(data[i]);
+    let plots = [scatter1, scatter2,scatter3,scatter4,scatter5,scatter6,scatter7]
+    let yKey = "Salary"
+    let xKeys = ["APG", "PPG","AGE","MPG","BPG", "SPG","RPG"]
+
+    for (let i = 0; i < plots.length; i++) {
+      {
+
+        xKey = xKeys[i]
+        plot = plots[i]
+    
+        // Find max x
+        let maxX = d3.max(data, (d) => { return Number(d[xKey]); });
+        let minX = d3.min(data, (d) => { return Number(d[xKey]); });
+    
+    
+        // Create X scale
+        x1 = d3.scaleLinear()
+                    .domain([minX,maxX])
+                    .range([margin1.left, width1 - margin1.right]);
+       
+        // Add x axis
+        plot.append("g")
+            .attr("transform", `translate(0,${height1 - margin1.bottom})`)
+            .call(d3.axisBottom(x1))  
+            .attr("font-size", '20px')
+            .call((g) => g.append("text")
+                          .attr("x", width1 - margin1.right)
+                          .attr("y", margin1.bottom - 4)
+                          .attr("fill", "black")
+                          .attr("text-anchor", "end")
+                          .text(xKey)
+          );
+    
+        // Find max y
+        let maxY1 = d3.max(data, (d) => { return Number(d[yKey]); });
+        let minY1 = d3.min(data, (d) => { return Number(d[yKey]); });
+
+        // Create Y scale
+        y1 = d3.scaleLinear()
+                    .domain([minY1, maxY1])
+                    .range([height1 - margin1.bottom, margin1.top]);
+    
+        // Add y axis
+        plot.append("g")
+            .attr("transform", `translate(${margin1.left}, 0)`)
+            .call(d3.axisLeft(y1))
+            .attr("font-size", '20px')
+            .call((g) => g.append("text")
+                          .attr("x", 0)
+                          .attr("y", margin1.top - 10)
+                          .attr("fill", "black")
+                          .attr("text-anchor", "end")
+                          .text(yKey)
+          );
+    
+        // Add points
+        myCircles1 = plot.selectAll("circle")
+                                .data(data)
+                                .enter()
+                                  .append("circle")
+                                  .attr("id", (d) => d.id)
+                                  .attr("cx", (d) => x1(d[xKey]))
+                                  .attr("cy", (d) => y1(d[yKey]))
+                                  .attr("r", 5)
+                                  .style("fill", (d) => pos_color(d.POS))
+                                  .style("opacity", 1);   
+      }
+
+
+    }
+
+
+
   }
 
-  // first scatter plot
+
+
+
+  // second scatter plot
   {
 
     xKey1 = "PPG";
@@ -65,8 +216,6 @@ d3.csv("data/nba_total.csv").then((data) => {
     let maxX1 = d3.max(data, (d) => { return Number(d[xKey1]); });
     let minX1 = d3.min(data, (d) => { return Number(d[xKey1]); });
 
-    console.log("max" + maxX1)
-    console.log("min" + minX1)
 
     // Create X scale
     x1 = d3.scaleLinear()
@@ -89,8 +238,7 @@ d3.csv("data/nba_total.csv").then((data) => {
     // Find max y
     let maxY1 = d3.max(data, (d) => { return Number(d[yKey1]); });
     let minY1 = d3.min(data, (d) => { return Number(d[yKey1]); });
-    console.log("max" + maxY1)
-    console.log("min" + minY1)
+
 
     // Create Y scale
     y1 = d3.scaleLinear()
@@ -135,8 +283,7 @@ d3.csv("data/nba_total.csv").then((data) => {
     data.forEach(row => {
       counts[row[xKey3]] = counts[row[xKey3]] ? counts[row[xKey3]] + 1: 1
     });
-    // console.log("Before map counts")
-    // console.log(counts)
+  
 
     listCounts = []
     for (let key in counts) {
@@ -144,18 +291,13 @@ d3.csv("data/nba_total.csv").then((data) => {
       listCounts.push({"POS":key, "count":counts[key]});
     }
 
-    //console.log(typeof(counts));
-    // console.log("After map counts")
-    console.log(listCounts);
+  
       
     maxY3 = 0
     for (let key in counts){
       if (counts[key] > maxY3) maxY3 = counts[key];
     }
-    console.log(maxY3)
-
-    console.log(d3.count(data, d => d.Species));
-
+    
     let y3 = d3.scaleLinear()  // linear scale for linear data on the y axis
     .domain([0,maxY3])  // sets the range of the data from 0 to the max
     .range([height-margin.bottom,margin.top]);
@@ -202,6 +344,159 @@ d3.csv("data/nba_total.csv").then((data) => {
                       .style("fill", (d) => pos_color(d.POS))
   }
 
+{
+let myDiv = document.getElementById("myDiv");
+
+//Create array of options to be added
+let array = ["player 1","Bismack Biyombo"];
+
+//Create and append select list
+let selectList = document.createElement("select");
+selectList.setAttribute("id", "mySelect");
+myDiv.appendChild(selectList);
+
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+    var option = document.createElement("option");
+    option.setAttribute("value", array[i]);
+    option.text = array[i];
+    selectList.appendChild(option);
+}
+}
+{
+let myDiv = document.getElementById("myDiv1");
+
+//Create array of options to be added
+let array = ["player 2", "Patrick Patterson"];
+
+//Create and append select list
+let selectList = document.createElement("select");
+selectList.setAttribute("id", "mySelect");
+myDiv.appendChild(selectList);
+
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+    var option = document.createElement("option");
+    option.setAttribute("value", array[i]);
+    option.text = array[i];
+    selectList.appendChild(option);
+}
+}
+
+{  // four bar plots at the bottom of the page
+
+let plots = [bar1, bar2, bar3, bar4];
+let features = ['Salary', 'PPG','SPG', 'APG'];
+let player1 = "Bismack Biyombo";
+let player2 = "Patrick Patterson";
+let subgroups = [player1, player2];
+let groups = ["2017-2018", "2018-2019", "2019-2020"];
+for (let i = 0; i < plots.length; i++) {
+      plot = plots[i]
+      xKey = features[i];
+      yKey = "Value";
+
+      // d = [
+      //   {"Year":"2017-2018", "Bismack Biyombo": 50, "Patrick Patterson": 30},
+      //   {"Year":"2018-2019", "Bismack Biyombo": 60, "Patrick Patterson": 40},
+      //   {"Year": "2019-2020", "Bismack Biyombo": 70, "Patrick Patterson": 50}
+      // ]
+
+      let d = []
+
+      // THIS IS IMPORTANT. STARTER CODE FOR FINAL IMPLEMENTATION
+      for (let i = 0; i < groups.length; i++) {
+        year = groups[i]
+        data.forEach(row => {
+          if (row['FULL NAME'] === player1 && row["season"] === year) {
+            let value1 = row[xKey];
+            data.forEach(row => {
+              if (row['FULL NAME'] ===  player2 && row["season"] === year) {
+                let value2 = row[xKey]
+                d.push({"Year":year, [player1]:parseFloat(value1), [player2]:parseFloat(value2)})
+              }
+            });
+          }
+          //console.log(row);
+          // counts[row[xKey3]] = counts[row[xKey3]] ? counts[row[xKey3]] + 1: 1
+        });
+      }
+      console.log(xKey);
+      console.log(d);
+
+      var x = d3.scaleBand()
+      .domain(groups)
+      .range([0, width2])
+      .padding([0.2]);
+
+      // Add X axis
+      plot.append("g")
+        .attr("transform", "translate(0," + height2 + ")")
+        .call(d3.axisBottom(x).tickSize(0))
+        .attr("font-size", '25px');
+
+        maxY = 0
+        for (let i = 0; i < d.length; i++){
+          console.log(subgroups[0])
+          if (d[i][subgroups[0]] > maxY) maxY = d[i][subgroups[0]];
+          if (d[i][subgroups[1]] > maxY) maxY = d[i][subgroups[1]];      
+        }
+        //console.log(maxY);
+
+    
+        // Add Y axis
+    console.log(maxY)
+    var y = d3.scaleLinear()
+      .domain([0, parseFloat(maxY)])
+      .range([ height2, 0 ]);
+    
+    
+    plot.append("g")
+      .attr("transform", `translate(40, 0)`)
+      .call(d3.axisLeft(y))
+      .attr("font-size", '20px')
+      .call((g) => g.append("text")
+                    .attr("x", 0)
+                    .attr("y", margin2.top - 10)
+                    .attr("fill", "black")
+                    .attr("text-anchor", "end")
+                    .text(xKey));
+
+
+    // plot.append("g")
+    //   .call(d3.axisLeft(y));
+
+  // Another scale for subgroup position?
+  let xSubgroup = d3.scaleBand()
+    .domain(subgroups)
+    .range([0, x.bandwidth()])
+    .padding([0.05])
+
+  // color palette = one color per subgroup
+  let color = d3.scaleOrdinal()
+    .domain(subgroups)
+    .range(['#e41a1c','#377eb8'])
+
+  plot.append("g")
+    .selectAll("g")
+    // Enter in data = loop group per group
+    .data(d)
+    .enter()
+    .append("g")
+      .attr("transform", function(d) { return "translate(" + x(d.Year) + ",0)"; })
+    .selectAll("rect")
+    .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+    .enter().append("rect")
+      .attr("x", function(d) { return xSubgroup(d.key); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", xSubgroup.bandwidth())
+      .attr("height", function(d) { return height2 - y(d.value); })
+      .attr("fill", function(d) { return color(d.key); });
+
+  }
+
+}
+
 
 // brushing
 let brush1;
@@ -212,22 +507,21 @@ brush1 = d3.brush()                 // Add the brush feature using the d3.brush 
             .on("start", clear)
 
 
-//TODO: Add brush1 to svg1
+// Add brush1 to svg1
 scatter_svg.call(brush1);
 
-// Call when Scatterplot2 is brushed
+// Call when Scatterplot is brushed
   function clear() {
       scatter_svg.call(brush1.move, null);
       
-      //TODO: add code to clear existing brush from svg2
-      //scatter_svg.call(brush2.move, null);
+  
   }
 
   function updateChart1(brushEvent) {
 
     //Find coordinates of brushed region
     let extent = brushEvent.selection;
-    //TODO: Start an empty set that you can store names of selected species in
+    //Start an empty set that you can store names of selected species in
     let selectPosition = new Set();
     //Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
     myCircles1.classed("selected", function(d){
@@ -256,58 +550,7 @@ scatter_svg.call(brush1);
       return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; // This return TRUE or FALSE depending on if the points is in the selected area
     }
 
-  // define the x scale of the bar chart
-//    x3 = d3.scaleBand()
-//                 .domain(d3.range(data.length))
-//                 .range([margin.left, width-margin.right])
-//                 .padding(0.1);
-
-//   // define the y sclae of the bar chart
-//    y3 = d3.scaleLinear()
-//               .domain([0, maxY3])
-//               .range([height - margin.bottom, margin.top]);
-
-//   // add x axis to the svg            
-//     bar_svg.append("g")
-//         .attr("transform", `translate(0,${height - margin.bottom})`)
-//         .call(d3.axisBottom(x3))  
-//         .attr("font-size", '25px')
-//         .call(d3.axisBottom(x3)
-//                 .tickFormat(i => data[i].Species))
-//         .call((g) => g.append("text")
-//                       .attr("x", width - margin.right)
-//                       .attr("y", margin.bottom - 4)
-//                       .attr("fill", "black")
-//                       .attr("text-anchor", "end")
-//                       .text(xKey3));
-
-// // add y axis to the svg
-//     bar_svg.append("g")
-//         .attr("transform", `translate(${margin.left}, 0)`)
-//         .call(d3.axisLeft(y3))
-//         .attr("font-size", '20px')
-//         .call((g) => g.append("text")
-//                       .attr("x", 0)
-//                       .attr("y", margin.top - 10)
-//                       .attr("fill", "black")
-//                       .attr("text-anchor", "end")
-//                       .text(yKey3));
-
-//     // add bars to the svg
-//     mybars = bar_svg.selectAll(".bar")
-//                   .data(data)
-//                   .enter()  
-//                   .append("rect")
-//                   .attr("class", "bar")
-//                   .attr("x", (d,i) => x3(i))
-//                   .attr("y", (d) => y3(d.count))
-//                   .attr("height", (d) => (height - margin.bottom) - y3(d.count))
-//                   .attr("width", x3.bandwidth())
-//                   .style("fill",(d)=>color(d.Species));
-//   }
-
-
-
+  
 
 
 
