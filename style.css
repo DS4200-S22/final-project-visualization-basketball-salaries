@@ -64,7 +64,15 @@ h1, h2, h3 {
     text-align: center;
 }
 
-.myDiv {text-align: center;}
-.myDiv1 {
+.myDiv {
 	text-align: center;
+	color: red;
+}
+.myDiv1 {
+	color: blue;
+	text-align: center;
+}
+
+#small {
+	font-size:small;
 }
