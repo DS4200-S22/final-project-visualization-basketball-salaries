@@ -332,6 +332,43 @@ d3.csv("data/nba_total.csv").then((data) => {
                       .attr("text-anchor", "end")
                       .text(yKey3));
 
+    // first, let's define our event handlers 
+    const mouseover = function (event, d) {
+      let bar = d3.select(this); 
+      bar.classed("unselected", false);
+      bar.classed("selected", true);
+
+
+      console.log(d)
+      myCircles1.classed("selected", function(d1) {return d1.POS == d.POS});
+      myCircles1.classed("not-selected", function(d1) {return (!(d1.POS == d.POS))});
+    }
+
+    const mouseout = function (event, d) {
+      console.log('out')
+      let bar = d3.select(this); 
+      bar.classed("unselected", true);
+      bar.classed("selected", false);
+      myCircles1.classed("selected", false);
+      myCircles1.classed("not-selected", false);
+    }
+
+    const mouseclick = function (event, d) {
+      let bar = d3.select(this); 
+      if (this.classList.contains("selected")) {
+          bar.classed("selected", false);
+          bar.classed("unselected", true);
+          //myCircles1.classed("selected", function(d1) {return (!(d1.POS == d.POS))});
+          myCircles1.classed("not-selected", function(d1) {return d1.POS == d.POS});
+      } else {
+          bar.classed("unselected", false);
+          bar.classed("selected", true);
+
+          myCircles1.classed("selected", function(d1) {return d1.POS == d.POS});
+          //myCircles1.classed("not-selected", function(d1) {return (!(d1.POS == d.POS))});
+      }
+    }
+
     mybars = bar_svg.selectAll(".bar")
                       .data(listCounts)
                       .enter()
@@ -342,6 +379,11 @@ d3.csv("data/nba_total.csv").then((data) => {
                       .attr("height", (d) => (height - margin.bottom)-y3(d.count))
                       .attr("width", x3.bandwidth())
                       .style("fill", (d) => pos_color(d.POS))
+                      .on("mouseover", mouseover) // mouseover listener
+                      .on("mouseout", mouseout) // mouseout listener
+                      //.on("click", mouseclick);
+
+
   }
 
 {
