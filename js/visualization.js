@@ -332,16 +332,14 @@ d3.csv("data/nba_total.csv").then((data) => {
                       .attr("text-anchor", "end")
                       .text(yKey3));
 
-    // first, let's define our event handlers 
+    // event handlers 
     const mouseover = function (event, d) {
       let bar = d3.select(this); 
       bar.classed("unselected", false);
       bar.classed("selected", true);
 
-
-      console.log(d)
-      myCircles1.classed("selected", function(d1) {return d1.POS == d.POS});
-      myCircles1.classed("not-selected", function(d1) {return (!(d1.POS == d.POS))});
+      myCircles1.classed("hovered", function(d1) {return d1.POS == d.POS});
+      myCircles1.classed("not-hovered", function(d1) {return (!(d1.POS == d.POS))});
     }
 
     const mouseout = function (event, d) {
@@ -349,23 +347,32 @@ d3.csv("data/nba_total.csv").then((data) => {
       let bar = d3.select(this); 
       bar.classed("unselected", true);
       bar.classed("selected", false);
-      myCircles1.classed("selected", false);
-      myCircles1.classed("not-selected", false);
+      myCircles1.classed("hovered", false);
+      myCircles1.classed("not-hovered", false);
     }
 
+    let clicked_bar = new Set();
     const mouseclick = function (event, d) {
-      let bar = d3.select(this); 
-      if (this.classList.contains("selected")) {
+      let bar = d3.select(this);
+
+      if (this.classList.contains("selected")) { // unclicking a bar
+          clicked_bar.delete(d.POS);
           bar.classed("selected", false);
           bar.classed("unselected", true);
-          //myCircles1.classed("selected", function(d1) {return (!(d1.POS == d.POS))});
-          myCircles1.classed("not-selected", function(d1) {return d1.POS == d.POS});
-      } else {
+          if (clicked_bar.size == 0) {
+            console.log('g');
+            myCircles1.classed("clicked", false);
+            myCircles1.classed("not-clicked", false);
+          } else {
+            myCircles1.classed("clicked", function(d1) {return clicked_bar.has(d1.POS)});
+            myCircles1.classed("not-clicked", function(d1) {return !(clicked_bar.has(d1.POS))});
+          }
+      } else { // clicking a bar
+          clicked_bar.add(d.POS);
           bar.classed("unselected", false);
           bar.classed("selected", true);
-
-          myCircles1.classed("selected", function(d1) {return d1.POS == d.POS});
-          //myCircles1.classed("not-selected", function(d1) {return (!(d1.POS == d.POS))});
+          myCircles1.classed("clicked", function(d1) {return clicked_bar.has(d1.POS)});
+          myCircles1.classed("not-clicked", function(d1) {return !(clicked_bar.has(d1.POS))});
       }
     }
 
@@ -379,11 +386,9 @@ d3.csv("data/nba_total.csv").then((data) => {
                       .attr("height", (d) => (height - margin.bottom)-y3(d.count))
                       .attr("width", x3.bandwidth())
                       .style("fill", (d) => pos_color(d.POS))
-                      .on("mouseover", mouseover) // mouseover listener
-                      .on("mouseout", mouseout) // mouseout listener
-                      //.on("click", mouseclick);
-
-
+                      //.on("mouseover", mouseover) // mouseover listener
+                      //.on("mouseout", mouseout) // mouseout listener
+                      .on("click", mouseclick);
   }
 
 {
@@ -591,9 +596,6 @@ scatter_svg.call(brush1);
         y1 = brush_coords[1][1];
       return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; // This return TRUE or FALSE depending on if the points is in the selected area
     }
-
-  
-
 
 
 });
