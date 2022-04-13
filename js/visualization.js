@@ -438,7 +438,7 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
   }
 
 
-// brushing
+  // brushing
   let brush1;
 
   brush1 = d3.brush()                 // Add the brush feature using the d3.brush function
@@ -498,13 +498,22 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
 // calls the function with a default value of PPG. This is so it shows up. Otherwise, the bar and scatter plot will not show up until a small scatter plot is clicked
 updateScatter("PPG");
 
+function GetSelectedItem1(e) {
+  let sel = document.getElementById("mySelect")
+  return sel.value
+}
+
+function GetSelectedItem2(e) {
+  let sel = document.getElementById("mySelect1")
+  return sel.value
+}
 
 {
+  //Create array of options to be added
+  let array = ["Kawhi Leonard","Stephen Curry", "Giannis Antetokounmpo","James Harden", "Joel Embiid" ];
+
   let myDiv = document.getElementById("myDiv");
 
-  //Create array of options to be added
-  let array = ["player 1","Bismack Biyombo"];
-
   //Create and append select list
   let selectList = document.createElement("select");
   selectList.setAttribute("id", "mySelect");
@@ -517,132 +526,138 @@ updateScatter("PPG");
       option.text = array[i];
       selectList.appendChild(option);
   }
-}
-{
-  let myDiv = document.getElementById("myDiv1");
-
-  //Create array of options to be added
-  let array = ["player 2", "Patrick Patterson"];
+  let myDiv1 = document.getElementById("myDiv1");
 
   //Create and append select list
-  let selectList = document.createElement("select");
-  selectList.setAttribute("id", "mySelect");
-  myDiv.appendChild(selectList);
+  let selectList2 = document.createElement("select");
+  selectList2.setAttribute("id", "mySelect1");
+  myDiv1.appendChild(selectList2);
 
   //Create and append the options
   for (var i = 0; i < array.length; i++) {
       var option = document.createElement("option");
       option.setAttribute("value", array[i]);
       option.text = array[i];
-      selectList.appendChild(option);
+      selectList2.appendChild(option);
   }
 }
 
-d3.csv("data/allposfinal.csv").then((data) => {
-  {  // four bar plots at the bottom of the page
-    // similar code to the gr
-    let plots = [bar1, bar2, bar3, bar4];  // sets the plots to the four svgs 
-    let features = ['Salary', 'PPG','SPG', 'APG'];  // sets the axes to be the four that we are interested in
-    // TODO FIX
-    let player1 = "Bismack Biyombo";  // hard codes player 1 for testing 
-    let player2 = "Patrick Patterson";  // hard coding player 2 for testing
-    let subgroups = [player1, player2];  // subgroups to allow barcharts to go next to each other
-    let groups = ["2017-2018", "2018-2019", "2019-2020"];  // the three seasons for which they are to be compared
-    for (let i = 0; i < plots.length; i++) {  // iterates through the four plots
-          plot = plots[i]
-          xKey = features[i];
-          yKey = "Value";  
-    
-          let d = []
-    
-          // This gets the values of the given xkey for a given player. It first finds the value corresponding to the first player, then finds the value corresponding to the second player for a given season
-          for (let i = 0; i < groups.length; i++) {
-            year = groups[i]
-            data.forEach(row => {
-              if (row['FULL NAME'] === player1 && row["season"] === year) {
-                let value1 = row[xKey];
-                data.forEach(row => {
-                  if (row['FULL NAME'] ===  player2 && row["season"] === year) {
-                    let value2 = row[xKey]
-                    d.push({"Year":year, [player1]:parseFloat(value1), [player2]:parseFloat(value2)})
-                  }
-                });
-              }
-            });
-          }
-          // console.log(xKey);
-          // console.log(d);
-    
-          var x = d3.scaleBand()  // gets the x scale
-          .domain(groups)
-          .range([0, width2])
-          .padding([0.2]);
-    
-          // Add X axis
-          plot.append("g")
-            .attr("transform", "translate(0," + height2 + ")")
-            .call(d3.axisBottom(x).tickSize(0))
-            .attr("font-size", '25px');
-    
-            // finds the maximum of the y values
-            maxY = 0
-            for (let i = 0; i < d.length; i++){
-              console.log(subgroups[0])
-              if (d[i][subgroups[0]] > maxY) maxY = d[i][subgroups[0]];
-              if (d[i][subgroups[1]] > maxY) maxY = d[i][subgroups[1]];      
+function updateCharts() {
+  p1 = GetSelectedItem1("myDiv")
+  p2 = GetSelectedItem2("myDiv1")
+  console.log(p1, p2)
+  bar1.selectAll('*').remove();
+  bar2.selectAll('*').remove();
+  bar3.selectAll('*').remove();
+  bar4.selectAll('*').remove();
+  updateCompareCharts(p1, p2);
+}
+
+function updateCompareCharts(p1, p2) {
+  d3.csv("data/allposfinal.csv").then((data) => {
+    {  // four bar plots at the bottom of the page
+
+      let plots = [bar1, bar2, bar3, bar4];
+      let features = ['Salary', 'PPG','SPG', 'APG'];
+      let player1 = p1;
+      let player2 = p2;
+      let subgroups = [player1, player2];
+      let groups = ["2017-2018", "2018-2019", "2019-2020"];
+      for (let i = 0; i < plots.length; i++) {
+            plot = plots[i]
+            xKey = features[i];
+            yKey = "Value";
+      
+            let d = []
+      
+            // THIS IS IMPORTANT. STARTER CODE FOR FINAL IMPLEMENTATION
+            for (let i = 0; i < groups.length; i++) {
+              year = groups[i]
+              data.forEach(row => {
+                if (row['FULL NAME'] === player1 && row["season"] === year) {
+                  let value1 = row[xKey];
+                  data.forEach(row => {
+                    if (row['FULL NAME'] ===  player2 && row["season"] === year) {
+                      let value2 = row[xKey]
+                      d.push({"Year":year, [player1]:parseFloat(value1), [player2]:parseFloat(value2)})
+                    }
+                  });
+                }
+              });
             }
-        
-            // Add Y axis
-        // console.log(maxY)
-        // gets the scale for the y axis
-        var y = d3.scaleLinear()
-          .domain([0, parseFloat(maxY)])
-          .range([ height2, 0 ]);
-        
-        // adds the y axis to the plot
+      
+            var x = d3.scaleBand()
+            .domain(groups)
+            .range([0, width2])
+            .padding([0.2]);
+      
+            // Add X axis
+            plot.append("g")
+              .attr("transform", "translate(0," + height2 + ")")
+              .call(d3.axisBottom(x).tickSize(0))
+              .attr("font-size", '25px');
+      
+              maxY = 0
+              for (let i = 0; i < d.length; i++){
+                //console.log(subgroups[0])
+                if (d[i][subgroups[0]] > maxY) maxY = d[i][subgroups[0]];
+                if (d[i][subgroups[1]] > maxY) maxY = d[i][subgroups[1]];      
+              }
+          
+              // Add Y axis
+          //console.log(maxY)
+          var y = d3.scaleLinear()
+            .domain([0, parseFloat(maxY)])
+            .range([ height2, 0 ]);
+          
+          
+          plot.append("g")
+            .attr("transform", `translate(40, 0)`)
+            .call(d3.axisLeft(y))
+            .attr("font-size", '20px')
+            .call((g) => g.append("text")
+                          .attr("x", 0)
+                          .attr("y", margin2.top - 10)
+                          .attr("fill", "black")
+                          .attr("text-anchor", "end")
+                          .text(xKey));
+      
+      
+          // plot.append("g")
+          //   .call(d3.axisLeft(y));
+      
+        // Another scale for subgroup position?
+        let xSubgroup = d3.scaleBand()
+          .domain(subgroups)
+          .range([0, x.bandwidth()])
+          .padding([0.05])
+      
+        // color palette = one color per subgroup
+        let color = d3.scaleOrdinal()
+          .domain(subgroups)
+          .range(['#e41a1c','#377eb8'])
+      
         plot.append("g")
-          .attr("transform", `translate(40, 0)`)
-          .call(d3.axisLeft(y))
-          .attr("font-size", '20px')
-          .call((g) => g.append("text")
-                        .attr("x", 0)
-                        .attr("y", margin2.top - 10)
-                        .attr("fill", "black")
-                        .attr("text-anchor", "end")
-                        .text(xKey));
-    
-    
-    
-      // Another scale for subgroup position?
-      let xSubgroup = d3.scaleBand()
-        .domain(subgroups)
-        .range([0, x.bandwidth()])
-        .padding([0.05])
-    
-      // color palette = one color per subgroup
-      let color = d3.scaleOrdinal()
-        .domain(subgroups)
-        .range(['#e41a1c','#377eb8'])
-    
-        // plots the 
-      plot.append("g")
-        .selectAll("g")
-        // Enter in data = loop group per group
-        .data(d)
-        .enter()
-        .append("g")
-          .attr("transform", function(d) { return "translate(" + x(d.Year) + ",0)"; })
-        .selectAll("rect")
-        .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
-        .enter().append("rect")
-          .attr("x", function(d) { return xSubgroup(d.key); })
-          .attr("y", function(d) { return y(d.value); })
-          .attr("width", xSubgroup.bandwidth())
-          .attr("height", function(d) { return height2 - y(d.value); })
-    
+          .selectAll("g")
+          // Enter in data = loop group per group
+          .data(d)
+          .enter()
+          .append("g")
+            .attr("transform", function(d) { return "translate(" + x(d.Year) + ",0)"; })
+          .selectAll("rect")
+          .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+          .enter().append("rect")
+            .attr("x", function(d) { return xSubgroup(d.key); })
+            .attr("y", function(d) { return y(d.value); })
+            .attr("width", xSubgroup.bandwidth())
+            .attr("height", function(d) { return height2 - y(d.value); })
+            .style("fill", (d) => pos_color(d.key))
+        }
       }
-    
-    }
+  });
+
+}
+
+updateCompareCharts("Kawhi Leonard", "Stephen Curry");
 
 
-});
