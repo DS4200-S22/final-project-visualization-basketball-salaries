@@ -432,8 +432,6 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
                       .attr("height", (d) => (height - margin.bottom)-y3(d.count))
                       .attr("width", x3.bandwidth())
                       .style("fill", (d) => pos_color(d.POS))
-                      //.on("mouseover", mouseover) // mouseover listener
-                      //.on("mouseout", mouseout) // mouseout listener
                       .on("click", mouseclick);
   }
 
@@ -472,11 +470,8 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
         return isBrushed(extent, x1(d[xKeyPassedIn]), y1(d.Salary))  } );
       // Give bold outline to all points in Scatterplot1 corresponding to points within the brush region in Scatterplot2
       myCircles1.classed("selected", function(d){ return isBrushed(extent, x1(d[xKeyPassedIn]), y1(d.Salary) ) } );
-      //myCircles1.classed("unselected", function(d){ return !(isBrushed(extent, x1(d.PPG), y1(d.Salary) )) } );
       // Give bold outline to all bars in bar chart with corresponding to species selected by Scatterplot2 brush
       mybars.classed("selected", function(d){return selectPosition.has(d.POS)});
-      //mybars.classed("unselected", function(d){return !(selectPosition.has(d.POS))});
-      //console.log(selectPosition)
     }
 
     //Finds dots within the brushed region
@@ -631,8 +626,6 @@ function updateCompareCharts(p1, p2) {
                           .text(xKey));
       
       
-          // plot.append("g")
-          //   .call(d3.axisLeft(y));
       
         // Another scale for subgroup position?
         let xSubgroup = d3.scaleBand()
