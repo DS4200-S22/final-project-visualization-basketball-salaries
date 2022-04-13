@@ -508,7 +508,7 @@ function GetSelectedItem2(e) {
   let array = ["Giannis Antetokounmpo",  "Kawhi Leonard", "Stephen Curry", "James Harden", "Anthony Davis",
                 "Paul George", "Joel Embiid", "Nikola Jokic", "Damian Lillard", "Russell Westbrook", "Ben Simmons", "Rudy Gobert",
                 "Kyrie Irving", "Pascal Siakam", "Kemba Walker", "Karl-Anthony Towns", "Blake Griffin", "Tobias Harris",
-                "Luka Doncic", "Draymond Green", "Bradley Beal", "LeBron James", "Jimmy Butler", "Mike Conley", "Donovan Mitchell", "Al Horford",
+                "Luka Doncic", "Draymond Green", "Bradley Beal", "LeBron James","Jimmy Butler", "Mike Conley", "Donovan Mitchell", "Al Horford",
                 "Devin Booker", "De'Aaron Fox", "Jamal Murray", "D'Angelo Russell", "LaMarcus Aldridge", "Trae Young", "Chris Paul",
                 "Kevin Love", "Jrue Holiday", "Aaron Gordon", "Khris Middleton", "Andre Drummond", "DeMar DeRozan", "CJ McCollum",
                 "Jayson Tatum", "Bojan Bogdanovic", "Nikola Vucevic", "Brandon Ingram", "Lauri Markkanen", "Marc Gasol", "Kyle Lowry",
@@ -615,7 +615,7 @@ function updateCompareCharts(p1, p2) {
           
           
           plot.append("g")
-            .attr("transform", `translate(40, 0)`)
+            .attr("transform", `translate(30, 0)`)
             .call(d3.axisLeft(y))
             .attr("font-size", '20px')
             .call((g) => g.append("text")
@@ -632,11 +632,6 @@ function updateCompareCharts(p1, p2) {
           .domain(subgroups)
           .range([0, x.bandwidth()])
           .padding([0.05])
-      
-        // color palette = one color per subgroup
-        let color = d3.scaleOrdinal()
-          .domain(subgroups)
-          .range(['#e41a1c','#377eb8'])
       
         plot.append("g")
           .selectAll("g")
