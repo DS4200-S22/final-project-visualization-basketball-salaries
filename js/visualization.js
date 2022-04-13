@@ -44,7 +44,7 @@ const scatter2 = d3.select(".container").select("#item-2")
                     .attr("width", width1 - margin1.left - margin1.right)
                     .attr("height", height1 - margin1.top - margin1.bottom)
                     .attr("viewBox", [0, 0, width1, height1]);
-1
+
 const scatter3 = d3.select(".container").select("#item-3")
                     .append("svg")
                     .attr("width", width1 - margin1.left - margin1.right)
@@ -112,36 +112,144 @@ const bar4 = d3.select(".container1").select("#item-1-4")
                     .attr("viewBox", [0, 0, width2, height2]);
 
 
-
 const pos_color = d3.scaleOrdinal()
                 .domain(["G", "F", "C"])
                 .range(["#FF7F50", "#21908dff", "#fde725ff"]);
 
-d3.csv("data/nba_total.csv").then((data) => {
 
-  // We will need scales for all of the following charts to be global
-  let x1, y1, x2, y2, x3, y3;  
+document.getElementById("item-1").addEventListener("click", updateScatterPlot1);
+document.getElementById("item-2").addEventListener("click", updateScatterPlot2);
+document.getElementById("item-3").addEventListener("click", updateScatterPlot3);
+document.getElementById("item-4").addEventListener("click", updateScatterPlot4);
+document.getElementById("item-5").addEventListener("click", updateScatterPlot5);
+document.getElementById("item-6").addEventListener("click", updateScatterPlot6);
+document.getElementById("item-7").addEventListener("click", updateScatterPlot7);
 
-  // We will need keys to be global
-  let xKey1, yKey1, xKey2, yKey2, xKey3, yKey3;
+// function testfunction() {
+//   alert("Hello!")
+// }
 
-  {  // grid of scatter plots
-        
+function updateScatterPlot1() {
+  scatter_svg.selectAll('*').remove();
+  bar_svg.selectAll('*').remove();
+  updateScatter("APG");
+}
+function updateScatterPlot2() {
+  scatter_svg.selectAll('*').remove();
+  bar_svg.selectAll('*').remove();
+  updateScatter("PPG");
+}
+function updateScatterPlot3() {
+  scatter_svg.selectAll('*').remove();
+  bar_svg.selectAll('*').remove();
+  updateScatter("AGE");
+}
+function updateScatterPlot4() {
+  scatter_svg.selectAll('*').remove();
+  bar_svg.selectAll('*').remove();
+  updateScatter("MPG");
+}
+function updateScatterPlot5() {
+  scatter_svg.selectAll('*').remove();
+  bar_svg.selectAll('*').remove();
+  updateScatter("BPG");
+}
+function updateScatterPlot6() {
+  scatter_svg.selectAll('*').remove();
+  bar_svg.selectAll('*').remove();
+  updateScatter("SPG");
+}
+function updateScatterPlot7() {
+  scatter_svg.selectAll('*').remove();
+  bar_svg.selectAll('*').remove();
+  updateScatter("RPG");
+}
 
+
+// function updateScatter(xKey) {
+
+//   d3.csv("data/nba_total.csv").then((data) => {
+//       xKey1 = xKey;
+//       yKey1 = "Salary";
+  
+//       // Find max x
+//       let maxX1 = d3.max(data, (d) => { return Number(d[xKey1]); });
+//       let minX1 = d3.min(data, (d) => { return Number(d[xKey1]); });
+  
+  
+//       // Create X scale
+//       x1 = d3.scaleLinear()
+//                   .domain([minX1,maxX1])
+//                   .range([margin.left, width-margin.right]);
+     
+//       // Add x axis
+//       scatter_svg.append("g")
+//           .attr("transform", `translate(0,${height - margin.bottom})`)
+//           .call(d3.axisBottom(x1))  
+//           .attr("font-size", '20px')
+//           .call((g) => g.append("text")
+//                         .attr("x", width - margin.right)
+//                         .attr("y", margin.bottom - 4)
+//                         .attr("fill", "black")
+//                         .attr("text-anchor", "end")
+//                         .text(xKey1)
+//         );
+  
+//       // Find max y
+//       let maxY1 = d3.max(data, (d) => { return Number(d[yKey1]); });
+//       let minY1 = d3.min(data, (d) => { return Number(d[yKey1]); });
+  
+  
+//       // Create Y scale
+//       y1 = d3.scaleLinear()
+//                   .domain([minY1, maxY1])
+//                   .range([height - margin.bottom, margin.top]);
+  
+//       // Add y axis
+//       scatter_svg.append("g")
+//           .attr("transform", `translate(${margin.left}, 0)`)
+//           .call(d3.axisLeft(y1))
+//           .attr("font-size", '20px')
+//           .call((g) => g.append("text")
+//                         .attr("x", 0)
+//                         .attr("y", margin.top - 10)
+//                         .attr("fill", "black")
+//                         .attr("text-anchor", "end")
+//                         .text(yKey1)
+//         );
+  
+//       // Add points
+//       myCircles1 = scatter_svg.selectAll("circle")
+//                               .data(data)
+//                               .enter()
+//                                 .append("circle")
+//                                 .attr("id", (d) => d.id)
+//                                 .attr("cx", (d) => x1(d[xKey1]))
+//                                 .attr("cy", (d) => y1(d[yKey1]))
+//                                 .attr("r", 5)
+//                                 .style("fill", (d) => pos_color(d.POS))
+//                                 .style("opacity", 1);   
+
+
+//   });
+//   scatter_svg.call(brush1);
+
+// };
+
+
+d3.csv("data/nba_total.csv").then((data) => {  
+    // grid of scatter plots 
     let plots = [scatter1, scatter2,scatter3,scatter4,scatter5,scatter6,scatter7]
     let yKey = "Salary"
     let xKeys = ["APG", "PPG","AGE","MPG","BPG", "SPG","RPG"]
 
     for (let i = 0; i < plots.length; i++) {
-      {
-
         xKey = xKeys[i]
         plot = plots[i]
     
         // Find max x
         let maxX = d3.max(data, (d) => { return Number(d[xKey]); });
         let minX = d3.min(data, (d) => { return Number(d[xKey]); });
-    
     
         // Create X scale
         x1 = d3.scaleLinear()
@@ -158,8 +266,7 @@ d3.csv("data/nba_total.csv").then((data) => {
                           .attr("y", margin1.bottom - 4)
                           .attr("fill", "black")
                           .attr("text-anchor", "end")
-                          .text(xKey)
-          );
+                          .text(xKey));
     
         // Find max y
         let maxY1 = d3.max(data, (d) => { return Number(d[yKey]); });
@@ -180,11 +287,10 @@ d3.csv("data/nba_total.csv").then((data) => {
                           .attr("y", margin1.top - 10)
                           .attr("fill", "black")
                           .attr("text-anchor", "end")
-                          .text(yKey)
-          );
+                          .text(yKey));
     
         // Add points
-        myCircles1 = plot.selectAll("circle")
+        myCircles = plot.selectAll("circle")
                                 .data(data)
                                 .enter()
                                   .append("circle")
@@ -193,23 +299,24 @@ d3.csv("data/nba_total.csv").then((data) => {
                                   .attr("cy", (d) => y1(d[yKey]))
                                   .attr("r", 5)
                                   .style("fill", (d) => pos_color(d.POS))
-                                  .style("opacity", 1);   
-      }
-
-
+                                  .style("opacity", 1); 
     }
+});
 
 
+function updateScatter(xkeypassedin) {
+  d3.csv("data/nba_total.csv").then((data) => {
 
-  }
+  // We will need scales for all of the following charts to be global
+  let x1, y1, x2, y2, x3, y3;  
 
-
-
+  // We will need keys to be global
+  let xKey1, yKey1, xKey2, yKey2, xKey3, yKey3;
 
   // second scatter plot
   {
 
-    xKey1 = "PPG";
+    xKey1 = xkeypassedin;
     yKey1 = "Salary";
 
     // Find max x
@@ -272,9 +379,7 @@ d3.csv("data/nba_total.csv").then((data) => {
   }
 
 
-  // bar plot
-
-  {
+  {  // bar plots
     xKey3 = "POS";
     yKey3 = "Number of Players";
  
@@ -384,12 +489,73 @@ d3.csv("data/nba_total.csv").then((data) => {
                       .attr("x", (d, i) => x3(i))
                       .attr("y", (d) => y3(d.count))
                       .attr("height", (d) => (height - margin.bottom)-y3(d.count))
-                      .attr("width", x3.bandwidth())
+                    .attr("width", x3.bandwidth())
                       .style("fill", (d) => pos_color(d.POS))
                       //.on("mouseover", mouseover) // mouseover listener
                       //.on("mouseout", mouseout) // mouseout listener
                       .on("click", mouseclick);
   }
+
+
+// brushing
+  let brush1;
+
+  brush1 = d3.brush()                 // Add the brush feature using the d3.brush function
+              .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+              .on("brush", updateChart1)     // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+              .on("start", clear)
+
+
+  // Add brush1 to svg1
+  scatter_svg.call(brush1);
+
+  // Call when Scatterplot is brushed
+    function clear() {
+        scatter_svg.call(brush1.move, null);
+        
+    
+    }
+
+    function updateChart1(brushEvent) {
+
+      //Find coordinates of brushed region
+      let extent = brushEvent.selection;
+      //Start an empty set that you can store names of selected species in
+      let selectPosition = new Set();
+      //Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
+      myCircles1.classed("selected", function(d){
+        if (isBrushed(extent, x1(d[xkeypassedin]), y1(d.Salary)))
+        {
+          selectPosition.add(d.POS)
+        }
+        return isBrushed(extent, x1(d[xkeypassedin]), y1(d.Salary))  } );
+      // Give bold outline to all points in Scatterplot1 corresponding to points within the brush region in Scatterplot2
+      myCircles1.classed("selected", function(d){ return isBrushed(extent, x1(d[xkeypassedin]), y1(d.Salary) ) } );
+      //myCircles1.classed("unselected", function(d){ return !(isBrushed(extent, x1(d.PPG), y1(d.Salary) )) } );
+      // Give bold outline to all bars in bar chart with corresponding to species selected by Scatterplot2 brush
+      mybars.classed("selected", function(d){return selectPosition.has(d.POS)});
+      //mybars.classed("unselected", function(d){return !(selectPosition.has(d.POS))});
+      //console.log(selectPosition)
+    }
+
+    //Finds dots within the brushed region
+      function isBrushed(brush_coords, cx, cy) {
+        if (brush_coords === null) return;
+
+        var x0 = brush_coords[0][0],
+          x1 = brush_coords[1][0],
+          y0 = brush_coords[0][1],
+          y1 = brush_coords[1][1];
+        return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; // This return TRUE or FALSE depending on if the points is in the selected area
+      }
+
+  
+  });
+
+};
+
+updateScatter("PPG");
+
 
 {
 let myDiv = document.getElementById("myDiv");
@@ -430,171 +596,110 @@ for (var i = 0; i < array.length; i++) {
 }
 }
 
-{  // four bar plots at the bottom of the page
+d3.csv("data/nba_total.csv").then((data) => {
+  {  // four bar plots at the bottom of the page
 
-let plots = [bar1, bar2, bar3, bar4];
-let features = ['Salary', 'PPG','SPG', 'APG'];
-let player1 = "Bismack Biyombo";
-let player2 = "Patrick Patterson";
-let subgroups = [player1, player2];
-let groups = ["2017-2018", "2018-2019", "2019-2020"];
-for (let i = 0; i < plots.length; i++) {
-      plot = plots[i]
-      xKey = features[i];
-      yKey = "Value";
-
-      // d = [
-      //   {"Year":"2017-2018", "Bismack Biyombo": 50, "Patrick Patterson": 30},
-      //   {"Year":"2018-2019", "Bismack Biyombo": 60, "Patrick Patterson": 40},
-      //   {"Year": "2019-2020", "Bismack Biyombo": 70, "Patrick Patterson": 50}
-      // ]
-
-      let d = []
-
-      // THIS IS IMPORTANT. STARTER CODE FOR FINAL IMPLEMENTATION
-      for (let i = 0; i < groups.length; i++) {
-        year = groups[i]
-        data.forEach(row => {
-          if (row['FULL NAME'] === player1 && row["season"] === year) {
-            let value1 = row[xKey];
+    let plots = [bar1, bar2, bar3, bar4];
+    let features = ['Salary', 'PPG','SPG', 'APG'];
+    let player1 = "Bismack Biyombo";
+    let player2 = "Patrick Patterson";
+    let subgroups = [player1, player2];
+    let groups = ["2017-2018", "2018-2019", "2019-2020"];
+    for (let i = 0; i < plots.length; i++) {
+          plot = plots[i]
+          xKey = features[i];
+          yKey = "Value";
+    
+          let d = []
+    
+          // THIS IS IMPORTANT. STARTER CODE FOR FINAL IMPLEMENTATION
+          for (let i = 0; i < groups.length; i++) {
+            year = groups[i]
             data.forEach(row => {
-              if (row['FULL NAME'] ===  player2 && row["season"] === year) {
-                let value2 = row[xKey]
-                d.push({"Year":year, [player1]:parseFloat(value1), [player2]:parseFloat(value2)})
+              if (row['FULL NAME'] === player1 && row["season"] === year) {
+                let value1 = row[xKey];
+                data.forEach(row => {
+                  if (row['FULL NAME'] ===  player2 && row["season"] === year) {
+                    let value2 = row[xKey]
+                    d.push({"Year":year, [player1]:parseFloat(value1), [player2]:parseFloat(value2)})
+                  }
+                });
               }
+              //console.log(row);
+              // counts[row[xKey3]] = counts[row[xKey3]] ? counts[row[xKey3]] + 1: 1
             });
           }
-          //console.log(row);
-          // counts[row[xKey3]] = counts[row[xKey3]] ? counts[row[xKey3]] + 1: 1
-        });
-      }
-      console.log(xKey);
-      console.log(d);
-
-      var x = d3.scaleBand()
-      .domain(groups)
-      .range([0, width2])
-      .padding([0.2]);
-
-      // Add X axis
+          console.log(xKey);
+          console.log(d);
+    
+          var x = d3.scaleBand()
+          .domain(groups)
+          .range([0, width2])
+          .padding([0.2]);
+    
+          // Add X axis
+          plot.append("g")
+            .attr("transform", "translate(0," + height2 + ")")
+            .call(d3.axisBottom(x).tickSize(0))
+            .attr("font-size", '25px');
+    
+            maxY = 0
+            for (let i = 0; i < d.length; i++){
+              console.log(subgroups[0])
+              if (d[i][subgroups[0]] > maxY) maxY = d[i][subgroups[0]];
+              if (d[i][subgroups[1]] > maxY) maxY = d[i][subgroups[1]];      
+            }
+        
+            // Add Y axis
+        console.log(maxY)
+        var y = d3.scaleLinear()
+          .domain([0, parseFloat(maxY)])
+          .range([ height2, 0 ]);
+        
+        
+        plot.append("g")
+          .attr("transform", `translate(40, 0)`)
+          .call(d3.axisLeft(y))
+          .attr("font-size", '20px')
+          .call((g) => g.append("text")
+                        .attr("x", 0)
+                        .attr("y", margin2.top - 10)
+                        .attr("fill", "black")
+                        .attr("text-anchor", "end")
+                        .text(xKey));
+    
+    
+        // plot.append("g")
+        //   .call(d3.axisLeft(y));
+    
+      // Another scale for subgroup position?
+      let xSubgroup = d3.scaleBand()
+        .domain(subgroups)
+        .range([0, x.bandwidth()])
+        .padding([0.05])
+    
+      // color palette = one color per subgroup
+      let color = d3.scaleOrdinal()
+        .domain(subgroups)
+        .range(['#e41a1c','#377eb8'])
+    
       plot.append("g")
-        .attr("transform", "translate(0," + height2 + ")")
-        .call(d3.axisBottom(x).tickSize(0))
-        .attr("font-size", '25px');
-
-        maxY = 0
-        for (let i = 0; i < d.length; i++){
-          console.log(subgroups[0])
-          if (d[i][subgroups[0]] > maxY) maxY = d[i][subgroups[0]];
-          if (d[i][subgroups[1]] > maxY) maxY = d[i][subgroups[1]];      
-        }
-        //console.log(maxY);
-
+        .selectAll("g")
+        // Enter in data = loop group per group
+        .data(d)
+        .enter()
+        .append("g")
+          .attr("transform", function(d) { return "translate(" + x(d.Year) + ",0)"; })
+        .selectAll("rect")
+        .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+        .enter().append("rect")
+          .attr("x", function(d) { return xSubgroup(d.key); })
+          .attr("y", function(d) { return y(d.value); })
+          .attr("width", xSubgroup.bandwidth())
+          .attr("height", function(d) { return height2 - y(d.value); })
     
-        // Add Y axis
-    console.log(maxY)
-    var y = d3.scaleLinear()
-      .domain([0, parseFloat(maxY)])
-      .range([ height2, 0 ]);
-    
-    
-    plot.append("g")
-      .attr("transform", `translate(40, 0)`)
-      .call(d3.axisLeft(y))
-      .attr("font-size", '20px')
-      .call((g) => g.append("text")
-                    .attr("x", 0)
-                    .attr("y", margin2.top - 10)
-                    .attr("fill", "black")
-                    .attr("text-anchor", "end")
-                    .text(xKey));
-
-
-    // plot.append("g")
-    //   .call(d3.axisLeft(y));
-
-  // Another scale for subgroup position?
-  let xSubgroup = d3.scaleBand()
-    .domain(subgroups)
-    .range([0, x.bandwidth()])
-    .padding([0.05])
-
-  // color palette = one color per subgroup
-  let color = d3.scaleOrdinal()
-    .domain(subgroups)
-    .range(['#e41a1c','#377eb8'])
-
-  plot.append("g")
-    .selectAll("g")
-    // Enter in data = loop group per group
-    .data(d)
-    .enter()
-    .append("g")
-      .attr("transform", function(d) { return "translate(" + x(d.Year) + ",0)"; })
-    .selectAll("rect")
-    .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
-    .enter().append("rect")
-      .attr("x", function(d) { return xSubgroup(d.key); })
-      .attr("y", function(d) { return y(d.value); })
-      .attr("width", xSubgroup.bandwidth())
-      .attr("height", function(d) { return height2 - y(d.value); })
-      .attr("fill", function(d) { return color(d.key); });
-
-  }
-
-}
-
-
-// brushing
-let brush1;
-
-brush1 = d3.brush()                 // Add the brush feature using the d3.brush function
-            .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-            .on("brush", updateChart1)     // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-            .on("start", clear)
-
-
-// Add brush1 to svg1
-scatter_svg.call(brush1);
-
-// Call when Scatterplot is brushed
-  function clear() {
-      scatter_svg.call(brush1.move, null);
-      
-  
-  }
-
-  function updateChart1(brushEvent) {
-
-    //Find coordinates of brushed region
-    let extent = brushEvent.selection;
-    //Start an empty set that you can store names of selected species in
-    let selectPosition = new Set();
-    //Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
-    myCircles1.classed("selected", function(d){
-      if (isBrushed(extent, x1(d.PPG), y1(d.Salary)))
-      {
-        selectPosition.add(d.POS)
       }
-       return isBrushed(extent, x1(d.PPG), y1(d.Salary))  } );
-    // Give bold outline to all points in Scatterplot1 corresponding to points within the brush region in Scatterplot2
-    myCircles1.classed("selected", function(d){ return isBrushed(extent, x1(d.PPG), y1(d.Salary) ) } );
-    //myCircles1.classed("unselected", function(d){ return !(isBrushed(extent, x1(d.PPG), y1(d.Salary) )) } );
-    // Give bold outline to all bars in bar chart with corresponding to species selected by Scatterplot2 brush
-    mybars.classed("selected", function(d){return selectPosition.has(d.POS)});
-    //mybars.classed("unselected", function(d){return !(selectPosition.has(d.POS))});
-    //console.log(selectPosition)
-  }
-
-  //Finds dots within the brushed region
-    function isBrushed(brush_coords, cx, cy) {
-      if (brush_coords === null) return;
-
-      var x0 = brush_coords[0][0],
-        x1 = brush_coords[1][0],
-        y0 = brush_coords[0][1],
-        y1 = brush_coords[1][1];
-      return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; // This return TRUE or FALSE depending on if the points is in the selected area
+    
     }
 
 
