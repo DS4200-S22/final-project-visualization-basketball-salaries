@@ -510,7 +510,15 @@ function GetSelectedItem2(e) {
 
 {
   //Create array of options to be added
-  let array = ["Kawhi Leonard","Stephen Curry", "Giannis Antetokounmpo","James Harden", "Joel Embiid" ];
+  let array = ["Giannis Antetokounmpo", "LeBron James", "Kawhi Leonard", "Stephen Curry", "James Harden", "Anthony Davis",
+                "Paul George", "Joel Embiid", "Nikola Jokic", "Damian Lillard", "Russell Westbrook", "Ben Simmons", "Rudy Gobert",
+                "Kyrie Irving", "Pascal Siakam", "Kemba Walker", "Karl-Anthony Towns", "Blake Griffin", "Tobias Harris",
+                "Luka Doncic", "Draymond Green", "Bradley Beal", "Jimmy Butler", "Mike Conley", "Donovan Mitchell", "Al Horford",
+                "Devin Booker", "De'Aaron Fox", "Jamal Murray", "D'Angelo Russell", "LaMarcus Aldridge", "Trae Young", "Chris Paul",
+                "Kevin Love", "Jrue Holiday", "Aaron Gordon", "Khris Middleton", "Andre Drummond", "DeMar DeRozan", "CJ McCollum",
+                "Jayson Tatum", "Bojan Bogdanovic", "Nikola Vucevic", "Brandon Ingram", "Lauri Markkanen", "Marc Gasol", "Kyle Lowry",
+                "Myles Turner", "John Collins", "Lou Williams", "Donovan Mitchell", "Andrew Wiggins", "Dwight Howard", "Donovan Mitchell"
+    ];
 
   let myDiv = document.getElementById("myDiv");
 
