@@ -430,7 +430,7 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
                       .attr("x", (d, i) => x3(i))
                       .attr("y", (d) => y3(d.count))
                       .attr("height", (d) => (height - margin.bottom)-y3(d.count))
-                    .attr("width", x3.bandwidth())
+                      .attr("width", x3.bandwidth())
                       .style("fill", (d) => pos_color(d.POS))
                       //.on("mouseover", mouseover) // mouseover listener
                       //.on("mouseout", mouseout) // mouseout listener
@@ -637,6 +637,7 @@ d3.csv("data/allposfinal.csv").then((data) => {
         .enter().append("rect")
           .attr("x", function(d) { return xSubgroup(d.key); })
           .attr("y", function(d) { return y(d.value); })
+          .style("fill", (d) => color(d.key))
           .attr("width", xSubgroup.bandwidth())
           .attr("height", function(d) { return height2 - y(d.value); })
     
