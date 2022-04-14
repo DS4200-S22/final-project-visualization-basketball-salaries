@@ -388,7 +388,6 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
     }
 
     const mouseout = function (event, d) {
-      console.log('out')
       let bar = d3.select(this); 
       bar.classed("unselected", true);
       bar.classed("selected", false);
@@ -405,7 +404,6 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
           bar.classed("selected", false);
           bar.classed("unselected", true);
           if (clicked_bar.size == 0) {
-            console.log('g');
             myCircles1.classed("clicked", false);
             myCircles1.classed("not-clicked", false);
           } else {
@@ -548,7 +546,6 @@ function GetSelectedItem2(e) {
 function updateCharts() {
   p1 = GetSelectedItem1("myDiv")
   p2 = GetSelectedItem2("myDiv1")
-  console.log(p1, p2)
   bar1.selectAll('*').remove();
   bar2.selectAll('*').remove();
   bar3.selectAll('*').remove();
