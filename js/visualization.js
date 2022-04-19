@@ -5,7 +5,7 @@ const height = 650; //- margin.top - margin.bottom;
 
 // margins and heights for the grid of scatter plots
 const margin1 = { top: 50, right: 50, bottom: 50, left: 200 };
-const width1 = 600; //- margin.left - margin.right;
+const width1 = 650; //- margin.left - margin.right;
 const height1 = 450; //- margin.top - margin.bottom;
 
 // margins and heights for the set of bar plots at the bottom of the visualization
@@ -20,90 +20,46 @@ const bar_svg = d3.select("#vis-container")
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
 
-// svg for the large scatter plot
-const scatter_svg = d3.select("#vis-container")
+let scatter_svg = d3.select("#vis-container")
                         .append("svg")
                         .attr("width", width - margin.left - margin.right)
                         .attr("height", height - margin.top - margin.bottom)
                         .attr("viewBox", [0, 0, width, height]);
 
-
-
+let scatter1, scatter2, scatter3, scatter4, scatter5, scatter6, scatter7
+let plots = [scatter1, scatter2, scatter3, scatter4, scatter5, scatter6, scatter7]
+let items1 = ["#item-1", "#item-2", "#item-3", "#item-4", "#item-5", "#item-6", "#item-7"]
 
 // all of the scatter plots for the grid of scatter plots at the top of the visualization
-const scatter1 = d3.select(".container").select("#item-1")
+for (let i = 0; i < plots.length; i++) {
+  let plot1 = plots[i]
+  let item1 = items1[i]
+  plot1 = d3.select(".container").select(item1)
                     .append("svg")
                     .attr("width", width1 - margin1.left - margin1.right)
                     .attr("height", height1 - margin1.top - margin1.bottom)
                     .attr("viewBox", [0, 0, width1, height1]);
+  plots[i] = plot1;
+}
 
-const scatter2 = d3.select(".container").select("#item-2")
-                    .append("svg")
-                    .attr("width", width1 - margin1.left - margin1.right)
-                    .attr("height", height1 - margin1.top - margin1.bottom)
-                    .attr("viewBox", [0, 0, width1, height1]);
+let bar1, bar2, bar3, bar4
+let plots2 = [bar1, bar2, bar3, bar4]
+let items2 = ["#item-1-1", "#item-1-2", "#item-1-3", "#item-1-4"]
 
-const scatter3 = d3.select(".container").select("#item-3")
-                    .append("svg")
-                    .attr("width", width1 - margin1.left - margin1.right)
-                    .attr("height", height1 - margin1.top - margin1.bottom)
-                    .attr("viewBox", [0, 0, width1, height1]);
-
-const scatter4 = d3.select(".container").select("#item-4")
-                    .append("svg")
-                    .attr("width", width1 - margin1.left - margin1.right)
-                    .attr("height", height1 - margin1.top - margin1.bottom)
-                    .attr("viewBox", [0, 0, width1, height1]);
-
-const scatter5 = d3.select(".container").select("#item-5")
-                    .append("svg")
-                    .attr("width", width1 - margin1.left - margin1.right)
-                    .attr("height", height1 - margin1.top - margin1.bottom)
-                    .attr("viewBox", [0, 0, width1, height1]);
-
-const scatter6 = d3.select(".container").select("#item-6")
-                    .append("svg")
-                    .attr("width", width1 - margin1.left - margin1.right)
-                    .attr("height", height1 - margin1.top - margin1.bottom)
-                    .attr("viewBox", [0, 0, width1, height1]);
-
-const scatter7 = d3.select(".container").select("#item-7")
-                    .append("svg")
-                    .attr("width", width1 - margin1.left - margin1.right)
-                    .attr("height", height1 - margin1.top - margin1.bottom)
-                    .attr("viewBox", [0, 0, width1, height1]);
-                    
-
-// set of 4 bar plots for player comparison at the bottom of the visualization
-const bar1 = d3.select(".container1").select("#item-1-1")
+for (let i = 0; i < plots2.length; i++) {
+  let plot3 = plots[i];
+  let item3 = items2[i]
+  plot3 = d3.select(".container1").select(item3)
                     .append("svg")
                     .attr("width", width2 - margin2.left - margin2.right)
                     .attr("height", height2 - margin2.top - margin2.bottom)
                     .attr("viewBox", [0, 0, width2, height2]);
-
-const bar2 = d3.select(".container1").select("#item-1-2")
-                    .append("svg")
-                    .attr("width", width2 - margin2.left - margin2.right)
-                    .attr("height", height2 - margin2.top - margin2.bottom)
-                    .attr("viewBox", [0, 0, width2, height2]);
-
-const bar3 = d3.select(".container1").select("#item-1-3")
-                    .append("svg")
-                    .attr("width", width2 - margin2.left - margin2.right)
-                    .attr("height", height2 - margin2.top - margin2.bottom)
-                    .attr("viewBox", [0, 0, width2, height2]);
-
-const bar4 = d3.select(".container1").select("#item-1-4")
-                    .append("svg")
-                    .attr("width", width2 - margin2.left - margin2.right)
-                    .attr("height", height2 - margin2.top - margin2.bottom)
-                    .attr("viewBox", [0, 0, width2, height2]);
-
+  plots2[i] = plot3;
+}
 
 const pos_color = d3.scaleOrdinal()  // color mapping for different positions
                 .domain(["G", "F", "C", "PF", "SF", "PG", "SG", "F-C", "C-F", "G-F", "F-G"])  
                 .range(["#FF7F50", "#21908dff", "#fde725ff", "#fc0303", "#575e03", "#44ff00", "#00ffd9", "#0099ff", "#7b00ff", "#ff00d0", "#359e05"]);
-
 
 // This adds the event listener to the seven scatter plots on click. Calls a function to update the larger scatter plot below
 document.getElementById("item-1").addEventListener("click", updateScatterPlot1);
@@ -115,24 +71,13 @@ document.getElementById("item-6").addEventListener("click", updateScatterPlot6);
 document.getElementById("item-7").addEventListener("click", updateScatterPlot7);
 
 // These are the creations of the event listeners for mouseover of the seven scatter plots above. The function sets the border style and makes the borderwidth 5
-document.getElementById("item-1").addEventListener("mouseover", function(){ document.getElementById("item-1").style.borderStyle = "solid"; document.getElementById("item-1").style.borderWidth = "5px";});
-document.getElementById("item-2").addEventListener("mouseover", function(){ document.getElementById("item-2").style.borderStyle = "solid"; document.getElementById("item-2").style.borderWidth = "5px";});
-document.getElementById("item-3").addEventListener("mouseover", function(){ document.getElementById("item-3").style.borderStyle = "solid"; document.getElementById("item-3").style.borderWidth = "5px";});
-document.getElementById("item-4").addEventListener("mouseover", function(){ document.getElementById("item-4").style.borderStyle = "solid"; document.getElementById("item-4").style.borderWidth = "5px";});
-document.getElementById("item-5").addEventListener("mouseover", function(){ document.getElementById("item-5").style.borderStyle = "solid"; document.getElementById("item-5").style.borderWidth = "5px";});
-document.getElementById("item-6").addEventListener("mouseover", function(){ document.getElementById("item-6").style.borderStyle = "solid"; document.getElementById("item-6").style.borderWidth = "5px";});
-document.getElementById("item-7").addEventListener("mouseover", function(){ document.getElementById("item-7").style.borderStyle = "solid"; document.getElementById("item-7").style.borderWidth = "5px";});
-
-
 // These are the creations of the event listeners for mouseout of the seven scatter plots above. The function removes the border
-document.getElementById("item-1").addEventListener("mouseout", function() { document.getElementById("item-1").style.borderWidth = "0px"})
-document.getElementById("item-2").addEventListener("mouseout", function() { document.getElementById("item-2").style.borderWidth = "0px"})
-document.getElementById("item-3").addEventListener("mouseout", function() { document.getElementById("item-3").style.borderWidth = "0px"})
-document.getElementById("item-4").addEventListener("mouseout", function() { document.getElementById("item-4").style.borderWidth = "0px"})
-document.getElementById("item-5").addEventListener("mouseout", function() { document.getElementById("item-5").style.borderWidth = "0px"})
-document.getElementById("item-6").addEventListener("mouseout", function() { document.getElementById("item-6").style.borderWidth = "0px"})
-document.getElementById("item-7").addEventListener("mouseout", function() { document.getElementById("item-7").style.borderWidth = "0px"})
-
+let items = ["item-1", "item-2", "item-3", "item-4", "item-5", "item-6", "item-7"]
+for (let i = 0; i < items.length; i++) {
+  let item = items[i]
+  document.getElementById(item).addEventListener("mouseover", function(){ document.getElementById(item).style.borderStyle = "solid"; document.getElementById(item).style.borderWidth = "5px";});
+  document.getElementById(item).addEventListener("mouseout", function() { document.getElementById(item).style.borderWidth = "0px"})
+}
 
 // 7 functions to allow the large scatter plot below to update with the graph that was clicked on
 function updateScatterPlot1() {  
@@ -140,31 +85,37 @@ function updateScatterPlot1() {
   bar_svg.selectAll('*').remove();  // removes the large bar plot
   updateScatter("APG");  // redraws both the scatter plot with the new axis as well as the bar chart
 }
+
 function updateScatterPlot2() {
   scatter_svg.selectAll('*').remove();
   bar_svg.selectAll('*').remove();
   updateScatter("PPG");
 }
+
 function updateScatterPlot3() {
   scatter_svg.selectAll('*').remove();
   bar_svg.selectAll('*').remove();
   updateScatter("AGE");
 }
+
 function updateScatterPlot4() {
   scatter_svg.selectAll('*').remove();
   bar_svg.selectAll('*').remove();
   updateScatter("MPG");
 }
+
 function updateScatterPlot5() {
   scatter_svg.selectAll('*').remove();
   bar_svg.selectAll('*').remove();
   updateScatter("BPG");
 }
+
 function updateScatterPlot6() {
   scatter_svg.selectAll('*').remove();
   bar_svg.selectAll('*').remove();
   updateScatter("SPG");
 }
+
 function updateScatterPlot7() {
   scatter_svg.selectAll('*').remove();
   bar_svg.selectAll('*').remove();
@@ -174,7 +125,7 @@ function updateScatterPlot7() {
 // THIS IS THE CODE FOR THE GRID OF SCATTER PLOTS
 d3.csv("data/allposfinal.csv").then((data) => {  
     // grid of scatter plots 
-    let plots = [scatter1, scatter2,scatter3,scatter4,scatter5,scatter6,scatter7]  // the 7 svg's that make up the scatter plots
+    //let plots = [scatter1, scatter2,scatter3,scatter4,scatter5,scatter6,scatter7]  // the 7 svg's that make up the scatter plots
     let yKey = "Salary"  // the y axis is all the same
     let xKeys = ["APG", "PPG","AGE","MPG","BPG", "SPG","RPG"]  // the seven different fields that are to be graphed 
 
@@ -189,8 +140,8 @@ d3.csv("data/allposfinal.csv").then((data) => {
     
         // Create X scale
         x1 = d3.scaleLinear()
-                    .domain([minX,maxX])
-                    .range([margin1.left, width1 - margin1.right]);
+                .domain([minX,maxX])
+                .range([margin1.left, width1 - margin1.right]);
        
         // Add x axis
         plot.append("g")
@@ -205,14 +156,14 @@ d3.csv("data/allposfinal.csv").then((data) => {
                           .text(xKey));
     
         // Find max y
-        let maxY1 = d3.max(data, (d) => { return Number(d[yKey]); });
+        let maxY1 = d3.max(data, (d) => {return Number(d[yKey]);});
         // Find min y
-        let minY1 = d3.min(data, (d) => { return Number(d[yKey]); });
+        let minY1 = d3.min(data, (d) => {return Number(d[yKey]);});
 
         // Create Y scale
         y1 = d3.scaleLinear()
-                    .domain([minY1, maxY1])
-                    .range([height1 - margin1.bottom, margin1.top]);
+                .domain([minY1, maxY1])
+                .range([height1 - margin1.bottom, margin1.top]);
     
         // Add y axis
         plot.append("g")
@@ -252,7 +203,6 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
 
   // second scatter plot
   {
-
     xKey1 = xKeyPassedIn;  // this line is necessary because we needed to change the code later
     yKey1 = "Salary";  // y value of the scatter plot is always salary
 
@@ -288,8 +238,8 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
 
     // Create Y scale
     y1 = d3.scaleLinear()
-                .domain([minY1, maxY1])
-                .range([height - margin.bottom, margin.top]);
+            .domain([minY1, maxY1])
+            .range([height - margin.bottom, margin.top]);
 
     // Add y axis
     scatter_svg.append("g")
@@ -328,14 +278,11 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
       counts[row[xKey3]] = counts[row[xKey3]] ? counts[row[xKey3]] + 1: 1
     });
   
-
     listCounts = []  // converts the dictionary of counts to a list with a key and value so it can be used later [{POS:G, count:100}, {POS:C, count:50}, ...]
     for (let key in counts) {
       if (key == '') continue;
       listCounts.push({"POS":key, "count":counts[key]});
     }
-
-  
       
     maxY3 = 0  // finds the max value in the list
     for (let key in counts){
@@ -343,27 +290,27 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
     }
     
     let y3 = d3.scaleLinear()  // linear scale for linear data on the y axis
-    .domain([0,maxY3])  // sets the range of the data from 0 to the max
-    .range([height-margin.bottom,margin.top]);
+                .domain([0,maxY3])  // sets the range of the data from 0 to the max
+                .range([height-margin.bottom,margin.top]);
 
     let x3 = d3.scaleBand()  // scale for the different "categories"
-      .domain(d3.range(listCounts.length))  // sets the number of parts on the x axis to the number of data points
-      .range([margin.left, width - margin.right])
-      .padding(0.1); // sets a spacing between each item on the axis
+                .domain(d3.range(listCounts.length))  // sets the number of parts on the x axis to the number of data points
+                .range([margin.left, width - margin.right])
+                .padding(0.1); // sets a spacing between each item on the axis
 
     // adds the bottom axis to the bar plot
     bar_svg.append("g")
-    .attr("transform", `translate(0,${height - margin.bottom})`)
-    .call(d3.axisBottom(x3))  
-    .attr("font-size", '25px')
-    .call(d3.axisBottom(x3)
-          .tickFormat(i => listCounts[i].POS))
-    .call((g) => g.append("text")
-                  .attr("x", width - margin.right)
-                  .attr("y", margin.bottom - 4)
-                  .attr("fill", "black")
-                  .attr("text-anchor", "end")
-                  .text(xKey3));
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .call(d3.axisBottom(x3))  
+            .attr("font-size", '25px')
+            .call(d3.axisBottom(x3)
+            .tickFormat(i => listCounts[i].POS))
+            .call((g) => g.append("text")
+                          .attr("x", width - margin.right)
+                          .attr("y", margin.bottom - 4)
+                          .attr("fill", "black")
+                          .attr("text-anchor", "end")
+                          .text(xKey3));
 
     // add y axis to the svg
     bar_svg.append("g")
@@ -379,21 +326,20 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
 
     // event handlers 
     const mouseover = function (event, d) {
-      let bar = d3.select(this); 
-      bar.classed("unselected", false);
-      bar.classed("selected", true);
+        let bar = d3.select(this); 
+        bar.classed("unselected", false);
+        bar.classed("selected", true);
 
-      myCircles1.classed("hovered", function(d1) {return d1.POS == d.POS});
-      myCircles1.classed("not-hovered", function(d1) {return (!(d1.POS == d.POS))});
+        myCircles1.classed("hovered", function(d1) {return d1.POS == d.POS});
+        myCircles1.classed("not-hovered", function(d1) {return (!(d1.POS == d.POS))});
     }
 
     const mouseout = function (event, d) {
-      console.log('out')
-      let bar = d3.select(this); 
-      bar.classed("unselected", true);
-      bar.classed("selected", false);
-      myCircles1.classed("hovered", false);
-      myCircles1.classed("not-hovered", false);
+        let bar = d3.select(this); 
+        bar.classed("unselected", true);
+        bar.classed("selected", false);
+        myCircles1.classed("hovered", false);
+        myCircles1.classed("not-hovered", false);
     }
 
     let clicked_bar = new Set();
@@ -405,7 +351,6 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
           bar.classed("selected", false);
           bar.classed("unselected", true);
           if (clicked_bar.size == 0) {
-            console.log('g');
             myCircles1.classed("clicked", false);
             myCircles1.classed("not-clicked", false);
           } else {
@@ -451,8 +396,6 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
   // Call when Scatterplot is brushed
     function clear() {
         scatter_svg.call(brush1.move, null);
-        
-    
     }
 
     function updateChart1(brushEvent) {
@@ -463,11 +406,10 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
       let selectPosition = new Set();
       //Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
       myCircles1.classed("selected", function(d){
-        if (isBrushed(extent, x1(d[xKeyPassedIn]), y1(d.Salary)))
-        {
+        if (isBrushed(extent, x1(d[xKeyPassedIn]), y1(d.Salary))) {
           selectPosition.add(d.POS)
         }
-        return isBrushed(extent, x1(d[xKeyPassedIn]), y1(d.Salary))  } );
+        return isBrushed(extent, x1(d[xKeyPassedIn]), y1(d.Salary))});
       // Give bold outline to all points in Scatterplot1 corresponding to points within the brush region in Scatterplot2
       myCircles1.classed("selected", function(d){ return isBrushed(extent, x1(d[xKeyPassedIn]), y1(d.Salary) ) } );
       // Give bold outline to all bars in bar chart with corresponding to species selected by Scatterplot2 brush
@@ -478,16 +420,13 @@ function updateScatter(xKeyPassedIn) {  // xKeyPassedIn is the value of the x ax
       function isBrushed(brush_coords, cx, cy) {
         if (brush_coords === null) return;
 
-        var x0 = brush_coords[0][0],
+        let x0 = brush_coords[0][0],
           x1 = brush_coords[1][0],
           y0 = brush_coords[0][1],
           y1 = brush_coords[1][1];
         return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; // This return TRUE or FALSE depending on if the points is in the selected area
       }
-
-  
   });
-
 };
 
 // calls the function with a default value of PPG. This is so it shows up. Otherwise, the bar and scatter plot will not show up until a small scatter plot is clicked
@@ -523,8 +462,8 @@ function GetSelectedItem2(e) {
   myDiv.appendChild(selectList);
 
   //Create and append the options
-  for (var i = 0; i < array.length; i++) {
-      var option = document.createElement("option");
+  for (let i = 0; i < array.length; i++) {
+      let option = document.createElement("option");
       option.setAttribute("value", array[i]);
       option.text = array[i];
       selectList.appendChild(option);
@@ -537,8 +476,8 @@ function GetSelectedItem2(e) {
   myDiv1.appendChild(selectList2);
 
   //Create and append the options
-  for (var i = 0; i < array.length; i++) {
-      var option = document.createElement("option");
+  for (let i = 0; i < array.length; i++) {
+      let option = document.createElement("option");
       option.setAttribute("value", array[i]);
       option.text = array[i];
       selectList2.appendChild(option);
@@ -546,28 +485,26 @@ function GetSelectedItem2(e) {
 }
 
 function updateCharts() {
-  p1 = GetSelectedItem1("myDiv")
-  p2 = GetSelectedItem2("myDiv1")
-  console.log(p1, p2)
-  bar1.selectAll('*').remove();
-  bar2.selectAll('*').remove();
-  bar3.selectAll('*').remove();
-  bar4.selectAll('*').remove();
-  updateCompareCharts(p1, p2);
+    p1 = GetSelectedItem1("myDiv")
+    p2 = GetSelectedItem2("myDiv1")
+    for (let i = 0; i < plots2.length; i++) {
+      plots2[i].selectAll('*').remove();
+    }
+    updateCompareCharts(p1, p2);
 }
 
 function updateCompareCharts(p1, p2) {
   d3.csv("data/allposfinal.csv").then((data) => {
     {  // four bar plots at the bottom of the page
 
-      let plots = [bar1, bar2, bar3, bar4];
+      //let plots = [bar1, bar2, bar3, bar4];
       let features = ['Salary', 'PPG','SPG', 'APG'];
       let player1 = p1;
       let player2 = p2;
       let subgroups = [player1, player2];
       let groups = ["2017-2018", "2018-2019", "2019-2020"];
-      for (let i = 0; i < plots.length; i++) {
-            plot = plots[i]
+      for (let i = 0; i < plots2.length; i++) {
+            plot = plots2[i]
             xKey = features[i];
             yKey = "Value";
       
@@ -589,7 +526,7 @@ function updateCompareCharts(p1, p2) {
               });
             }
       
-            var x = d3.scaleBand()
+            let x = d3.scaleBand()
             .domain(groups)
             .range([0, width2])
             .padding([0.2]);
@@ -602,16 +539,14 @@ function updateCompareCharts(p1, p2) {
       
               maxY = 0
               for (let i = 0; i < d.length; i++){
-                //console.log(subgroups[0])
                 if (d[i][subgroups[0]] > maxY) maxY = d[i][subgroups[0]];
                 if (d[i][subgroups[1]] > maxY) maxY = d[i][subgroups[1]];      
               }
           
               // Add Y axis
-          //console.log(maxY)
-          var y = d3.scaleLinear()
-            .domain([0, parseFloat(maxY)])
-            .range([ height2, 0 ]);
+          let y = d3.scaleLinear()
+                     .domain([0, parseFloat(maxY)])
+                     .range([ height2, 0 ]);
           
           
           plot.append("g")
@@ -624,8 +559,6 @@ function updateCompareCharts(p1, p2) {
                           .attr("fill", "black")
                           .attr("text-anchor", "end")
                           .text(xKey));
-      
-      
       
         // Another scale for subgroup position?
         let xSubgroup = d3.scaleBand()
@@ -651,9 +584,6 @@ function updateCompareCharts(p1, p2) {
         }
       }
   });
-
 }
 
 updateCompareCharts("Kawhi Leonard", "Stephen Curry");
-
-

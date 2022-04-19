@@ -97,3 +97,8 @@ h1, h2, h3 {
 #small {
 	font-size:small;
 }
+
+.drop-column {
+  max-width: 65%;
+	margin: 40px auto;
+}
