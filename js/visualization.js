@@ -554,8 +554,8 @@ function updateCompareCharts(p1, p2) {
             .call(d3.axisLeft(y))
             .attr("font-size", '20px')
             .call((g) => g.append("text")
-                          .attr("x", 0)
-                          .attr("y", margin2.top - 10)
+                          .attr("x", 24)
+                          .attr("y", margin2.top - 70)
                           .attr("fill", "black")
                           .attr("text-anchor", "end")
                           .text(xKey));
